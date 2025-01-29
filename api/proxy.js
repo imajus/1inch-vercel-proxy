@@ -1,3 +1,5 @@
+import util from 'util';
+
 export default async function handler(req, res) {
   console.log('hello');
   const { API_AUTH_TOKEN } = process.env;
