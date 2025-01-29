@@ -1,32 +1,23 @@
-import util from 'util';
-
 export default async function handler(req, res) {
   console.log('hello');
   const { API_AUTH_TOKEN } = process.env;
-  console.log('auth');
-  console.log(API_AUTH_TOKEN);
-
-    // Safely print the entire req object (including nested objects)
-    console.log('Full request object:', util.inspect(req, { showHidden: false, depth: null }));
-
-    // If you just want the essential parts:
-    console.log('Method:', req.method);
-    console.log('Headers:', req.headers);
-    console.log('URL:', req.url);
+  console.log('auth', API_AUTH_TOKEN);
 
   if (!API_AUTH_TOKEN) {
     return res.status(500).json({ error: "API_AUTH_TOKEN is missing from env" });
   }
 
   try {
-    // Get path from query string
-    const { path } = req.query;
+    // Remove the leading "/api/" from req.url
+    // e.g. "/api/foo/bar" -> "foo/bar"
+    const path = req.url.replace(/^\/api\//, '');
 
     if (!path) {
       return res.status(400).json({ error: "Missing path parameter" });
     }
 
-    const targetUrl = `https://api.1inch.dev/${path.join("/")}`;
+    // Build the target URL
+    const targetUrl = `https://api.1inch.dev/${path}`;
     console.log("Forwarding request to:", targetUrl);
 
     // Prepare headers
@@ -40,13 +31,14 @@ export default async function handler(req, res) {
       }
     }
 
+    // Make the proxied request
     const response = await fetch(targetUrl, {
       method: req.method,
       headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
 
-    // Stream response back
+    // Return the response as JSON
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
