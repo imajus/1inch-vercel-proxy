@@ -38,6 +38,15 @@ export default async function handler(req, res) {
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
 
+
+    // Log raw response object details before parsing JSON
+    console.log("Raw response object:", {
+      url: response.url,
+      status: response.status,
+      statusText: response.statusText,
+      headers: Object.fromEntries(response.headers.entries()),
+    });
+
     console.log("Parsing response");
 
     // Return the response as JSON
