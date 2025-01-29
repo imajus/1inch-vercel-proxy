@@ -57,13 +57,6 @@ export default async function handler(req, res) {
     // Otherwise parse JSON
     const data = await response.json();
     return res.status(response.status).json(data);
-    
-
-    console.log("Parsing response");
-
-    // Return the response as JSON
-    const data = await response.json();
-    return res.status(response.status).json(data);
   } catch (error) {
     console.error("Error forwarding request:", error);
     return res.status(500).json({ error: "Internal Server Error" });
