@@ -5,6 +5,9 @@ export const config = {
   console.log("Request intercepted in middleware:", req.url);
   
   export default async function middleware(req) {
+
+  console.log("Request intercepted in middleware:", req.url);
+  
     const url = new URL(req.url);
     const apiPath = url.pathname.replace("/api", "");
   
