@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  console.log('hello');
+  console.log("hello");
   const { API_AUTH_TOKEN } = process.env;
 
   if (!API_AUTH_TOKEN) {
@@ -7,14 +7,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get path from query string
-    const { path } = req.query;
-
-    if (!path) {
+    // req.url typically looks like "/api/tokens/balance/xyz"
+    // Let's manually capture the part after "/api/"
+    const match = req.url.match(/^\/api\/(.*)/);
+    if (!match || !match[1]) {
       return res.status(400).json({ error: "Missing path parameter" });
     }
 
-    const targetUrl = `https://api.1inch.dev/${path.join("/")}`;
+    // match[1] will be "tokens/balance/xyz" for "/api/tokens/balance/xyz"
+    const pathSegments = match[1].split("/");
+    console.log("Segments found:", pathSegments);
+
+    // Construct the target URL
+    const targetUrl = `https://api.1inch.dev/${pathSegments.join("/")}`;
     console.log("Forwarding request to:", targetUrl);
 
     // Prepare headers
@@ -28,13 +33,14 @@ export default async function handler(req, res) {
       }
     }
 
+    // Pass along the HTTP method & body
     const response = await fetch(targetUrl, {
       method: req.method,
       headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
 
-    // Stream response back
+    // Stream JSON response back
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
