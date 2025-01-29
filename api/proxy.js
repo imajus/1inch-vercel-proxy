@@ -46,6 +46,18 @@ export default async function handler(req, res) {
       statusText: response.statusText,
       headers: Object.fromEntries(response.headers.entries()),
     });
+    
+    // If there's no content, skip .json()
+    const contentLength = response.headers.get("content-length");
+    if (!contentLength || parseInt(contentLength, 10) === 0) {
+      // Return an empty object (or however you want to handle 0-length)
+      return res.status(response.status).json({ error: "No content returned" });
+    }
+    
+    // Otherwise parse JSON
+    const data = await response.json();
+    return res.status(response.status).json(data);
+    
 
     console.log("Parsing response");
 
