@@ -4,6 +4,14 @@ export default async function handler(req, res) {
   console.log('auth');
   console.log(API_AUTH_TOKEN);
 
+    // Safely print the entire req object (including nested objects)
+    console.log('Full request object:', util.inspect(req, { showHidden: false, depth: null }));
+
+    // If you just want the essential parts:
+    console.log('Method:', req.method);
+    console.log('Headers:', req.headers);
+    console.log('URL:', req.url);
+
   if (!API_AUTH_TOKEN) {
     return res.status(500).json({ error: "API_AUTH_TOKEN is missing from env" });
   }
