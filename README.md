@@ -1,4 +1,4 @@
-# Vercel 1inch Proxy
+# 1inch Vercel Proxy
 
 This is a simple REST API proxy that can be deployed to a **free** [Vercel](https://vercel.com/) account. Non-proxied 1inch requests from a web browser will **always** throw a CORS error. This is a simple turnkey solution to help speed up development when building with 1inch. 
 
