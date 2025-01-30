@@ -5,7 +5,7 @@ This is a simple REST API proxy that can be deployed to a **free** [Vercel](http
 
 ## Setup
 
-In order to hide API requests from web browsers, 1inch requires all API requests are proxied through some backend server. This project gives users a simple step-by-step path to creating a free cloud proxy:
+Because this will be a proxy specifically for your Dev Portal API key, you must deploy and manage it yourself. Luckily, Vercel makes this incredibly simple:
 
 - Create a free `Hobby` account on [vercel.com](https://vercel.com/) 
 - When creating a new project, select `Import Third-Party Git Repository` 
