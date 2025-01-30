@@ -13,9 +13,12 @@ export default async function handler(req, res) {
     console.log('Path');
     console.log(path);
 
-    if (!path) {
-      return res.status(400).json({ error: "Missing path parameter" });
-    }
+    if (!path || path === "/" || path === "") {
+      return res.status(400).json({
+        error:
+          "This is the root path of the proxy! It doesn't do anything on its own. You need to add the path of the 1inch API you want to talk to on the end!",
+      });
+    }    
 
     // Build the target URL
     const targetUrl = `https://api.1inch.dev/${path}`;
