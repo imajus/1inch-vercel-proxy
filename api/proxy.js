@@ -1,8 +1,6 @@
 export default async function handler(req, res) {
   const { API_AUTH_TOKEN } = process.env;
 
-  console.log('hello');
-
   if (!API_AUTH_TOKEN) {
     return res.status(500).json({ error: "API_AUTH_TOKEN is missing from env" });
   }
@@ -11,9 +9,6 @@ export default async function handler(req, res) {
     // Remove the leading "/api/" from req.url
     // e.g. "/api/foo/bar" -> "foo/bar"
     const path = req.url.replace(/^\/api\//, '');
-
-    console.log('Path');
-    console.log(path);
 
     if (!path || path === "/" || path === "") {
       return res.status(400).json({
