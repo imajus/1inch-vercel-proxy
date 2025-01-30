@@ -10,6 +10,9 @@ export default async function handler(req, res) {
     // e.g. "/api/foo/bar" -> "foo/bar"
     const path = req.url.replace(/^\/api\//, '');
 
+    console.log('Path');
+    console.log(path);
+
     if (!path) {
       return res.status(400).json({ error: "Missing path parameter" });
     }
