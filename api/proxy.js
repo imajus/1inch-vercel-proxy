@@ -35,16 +35,9 @@ export default async function handler(req, res) {
       headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
-
-
-    // Log raw response object details before parsing JSON
-    console.log("Raw response object:", {
-      url: response.url,
-      status: response.status,
-      statusText: response.statusText,
-      headers: Object.fromEntries(response.headers.entries()),
-    });
     
+    // If the response code is anything other than a 200, check if there is a response body before parsing it. 
+    // content-length is not reliable using this proxy, so we only check it when the requests errors.
     if (response.status !== 200) {
       const contentLength = response.headers.get("content-length");
       if (!contentLength || parseInt(contentLength, 10) === 0) {
@@ -53,7 +46,7 @@ export default async function handler(req, res) {
       }
     }
     
-    // Otherwise parse JSON
+    // Parse response body and return it to the caller
     const data = await response.json();
     return res.status(response.status).json(data);
   } catch (error) {
