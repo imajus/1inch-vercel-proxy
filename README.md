@@ -13,7 +13,9 @@ This proxy will contain your personal Dev Portal API key, so it must be deployed
 - Create a free `Hobby` account on [vercel.com](https://vercel.com/) 
 - When creating a new project, select `Import Third-Party Git Repository` 
 - Paste in the `.git` link to this repository
-- Once the project is imported, go to `Settings`->`Environment Variables` and add a new environment variable with a key of `API_AUTH_TOKEN` and a value of your Dev Portal API token and press `Save`
+- Once the project is imported, you will need to change two settings before anything will work:
+  - First, go to `Settings`->`Environment Variables` and add a new environment variable with a key of `API_AUTH_TOKEN` and a value of your Dev Portal API token and press `Save`
+  - Second, go to `Settings`->`Deployment Protection` and disable `Vercel Authentication`. This is critical for unauthenticated requests to reach the server
 
 ## Usage
 
