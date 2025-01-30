@@ -5,7 +5,7 @@ This is a simple REST API proxy that can be deployed to a **free** [Vercel](http
 
 ## Setup
 
-Because this will be a proxy specifically for your Dev Portal API key, you must deploy and manage it yourself. Luckily, Vercel makes this incredibly simple:
+This proxy will contain your personal Dev Portal API key, so it must be deployed and configured manually. Luckily, Vercel makes this incredibly simple:
 
 - Create a free `Hobby` account on [vercel.com](https://vercel.com/) 
 - When creating a new project, select `Import Third-Party Git Repository` 
@@ -15,7 +15,7 @@ Because this will be a proxy specifically for your Dev Portal API key, you must 
 ## Usage
 
 - On the main `Project` tab, you will see a long string for your proxy's address. Something like this: `1inch-proxy-12345abcd-account_name-projects.vercel.app`
-- Whenever you make a call to the 1inch REST api in your code, instead of `api.1inch.dev`, use your new Vercel proxy address
-  - Example: `https://api.1inch.dev` becomes `https://1inch-proxy-12345abcd-account_name-projects.vercel.app/orderbook/v4.0/1/count`
+- All 1inch REST API calls should now be use your new Vercel proxy address instead of the standard `api.1inch.dev` address.
+  - Example: `https://api.1inch.dev/orderbook/v4.0/1/count` becomes `https://1inch-proxy-12345abcd-account_name-projects.vercel.app/orderbook/v4.0/1/count`
 
-And that is it! If there are strange response bodies, errors, or something doesn't work right, please open an issue on this repo here.
+And that is it! If there are strange response bodies, errors, or something doesn't work right, please open an [Issue](https://github.com/Tanz0rz/1inch-vercel-proxy/issues) here on GitHub.
