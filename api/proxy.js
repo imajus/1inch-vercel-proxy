@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     if (!path || path === "/" || path === "") {
       return res.status(400).json({
         error:
-          "This is the root path of the proxy! It doesn't do anything on its own. You need to add the path of the 1inch API you want to talk to on the end!",
+          "This is just the root path of the proxy! It doesn't do anything on its own. You need to append the path of the 1inch API you want to talk to",
       });
     }    
 
