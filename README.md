@@ -15,7 +15,7 @@ This proxy will contain your personal Dev Portal API key, so it must be deployed
 - Paste in the `.git` link to this repository
 - Once the project is imported, you will need to change two settings before anything will work:
   - First, go to `Settings`->`Environment Variables`, add a new environment variable with a key of `API_AUTH_TOKEN` and a value of your Dev Portal API token, then press `Save`
-  - Second, go to `Settings`->`Deployment Protection`, disable `Vercel Authentication`, then press `Save`. This is critical for unauthenticated requests to reach the server
+  - Second, go to `Settings`->`Deployment Protection`, disable `Vercel Authentication`, then press `Save`. This is required for unauthenticated requests to reach the server
 
 ## Usage
 
