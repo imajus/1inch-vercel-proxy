@@ -2,7 +2,6 @@
 
 This is a simple REST API proxy that can be deployed to a **free** [Vercel](https://vercel.com/) account. Non-proxied 1inch requests from a web browser will **always** throw a CORS error. This is a simple turnkey solution to help speed up development when building with 1inch. 
 
-
 ## Setup
 
 This proxy will contain your personal Dev Portal API key, so it must be deployed and configured manually. Luckily, Vercel makes this incredibly simple:
