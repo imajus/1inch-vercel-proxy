@@ -13,8 +13,8 @@ This proxy will contain your personal Dev Portal API key, so it must be deployed
 
 ## Usage
 
-- On the main `Project` tab, you will see a long string for your proxy's address. Something like this: `1inch-proxy-12345abcd-account_name-projects.vercel.app`
+- On the main `Project` tab, in the `Product Deployment` section, get your proxy's address in the `Domains` section. It will look something like this: `my-1inch-vercel-proxy.vercel.app`
 - All 1inch REST API calls should now be use your new Vercel proxy address instead of the standard `api.1inch.dev` address.
-  - Example: `https://api.1inch.dev/orderbook/v4.0/1/count` becomes `https://1inch-proxy-12345abcd-account_name-projects.vercel.app/orderbook/v4.0/1/count`
+  - Example: `https://api.1inch.dev/orderbook/v4.0/1/count` becomes `https://my-1inch-vercel-proxy.vercel.app/orderbook/v4.0/1/count`
 
 And that is it! If there are strange response bodies, errors, or something doesn't work right, please open an [Issue](https://github.com/Tanz0rz/1inch-vercel-proxy/issues) here on GitHub.
