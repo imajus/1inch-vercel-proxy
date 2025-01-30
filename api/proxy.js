@@ -19,7 +19,6 @@ export default async function handler(req, res) {
 
     // Build the target URL
     const targetUrl = `https://api.1inch.dev/${path}`;
-    console.log("Forwarding request to:", targetUrl);
 
     // Prepare headers
     const headers = new Headers();
@@ -38,8 +37,6 @@ export default async function handler(req, res) {
       headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
-
-    console.log("Forwarded request to %", targetUrl);
     
     // If the response code is anything other than a 200, check if there is a response body before parsing it. 
     // content-length is not reliable using this proxy, so we only check it when the requests errors.
