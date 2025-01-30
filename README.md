@@ -4,7 +4,7 @@ This is a simple proxy for the 1inch API that can be deployed to a **free** [Ver
 
 ## Why use a proxy with the 1inch API?
 
-Non-proxied 1inch requests from a web browser will **always** throw a CORS error. This is done to keep 1inch API keys off of frontends where nefarious users can extract it while listening to network calls. By executing 1inch API requests on a separate backend, the API key is no longer living in the same environment as the users.
+Non-proxied 1inch API requests from a web browser will **always** throw a CORS error. This is done to keep 1inch API keys off of frontends where nefarious users can extract them while listening to network calls. By executing 1inch API requests on a separate backend, the API key is no longer living in the same environment as the users.
 
 ## Setup
 
