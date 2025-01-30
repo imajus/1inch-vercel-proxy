@@ -1,6 +1,8 @@
 export default async function handler(req, res) {
   const { API_AUTH_TOKEN } = process.env;
 
+  console.log('hello');
+
   if (!API_AUTH_TOKEN) {
     return res.status(500).json({ error: "API_AUTH_TOKEN is missing from env" });
   }
