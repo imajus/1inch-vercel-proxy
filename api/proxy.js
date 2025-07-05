@@ -1,4 +1,22 @@
 export default async function handler(req, res) {
+
+    // Allow only http://localhost:* to call this route
+  const origin = req.headers.origin || '';
+  const isLocalhost = /^https?:\/\/localhost(:\d+)?$/i.test(origin);
+
+  // Only set the CORS header if origin is allowed
+  if (isLocalhost) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+
+  // Short-circuit pre-flight
+  if (req.method === 'OPTIONS') {
+    return res.status(204).end();
+  }
+
   const { API_AUTH_TOKEN } = process.env;
 
   if (!API_AUTH_TOKEN) {
@@ -17,16 +35,27 @@ export default async function handler(req, res) {
       });
     }    
 
-    // Build the target URL
-    const targetUrl = `https://api.1inch.dev/${path}`;
+    // Build the target URL, removing any leading slash from path to prevent double slashes
+    const targetUrl = `https://api.1inch.dev/${path.replace(/^\//, "")}`;
 
     // Prepare headers
     const headers = new Headers();
     headers.set("Authorization", `Bearer ${API_AUTH_TOKEN}`);
 
-    // Copy client headers, excluding host
+    // Only forward essential headers
+    const allowedHeaders = [
+      "accept",
+      "accept-encoding",
+      "accept-language",
+      "content-type",
+      "authorization",
+      "user-agent"
+    ];
     for (let [key, value] of Object.entries(req.headers)) {
-      if (key.toLowerCase() !== "host") {
+      if (
+        key.toLowerCase() !== "host" &&
+        allowedHeaders.includes(key.toLowerCase())
+      ) {
         headers.set(key, value);
       }
     }
@@ -37,22 +66,25 @@ export default async function handler(req, res) {
       headers,
       body: req.method !== "GET" ? JSON.stringify(req.body) : undefined,
     });
-    
-    // If the response code is anything other than a 200, check if there is a response body before parsing it. 
-    // content-length is not reliable using this proxy, so we only check it when the requests errors.
+
+    const text = await response.text();
+
+    // If the response code is anything other than a 200, check if there is a response body before parsing it.
     if (response.status !== 200) {
       const contentLength = response.headers.get("content-length");
       if (!contentLength || parseInt(contentLength, 10) === 0) {
-        // If there is no content in a non-200 response, return this
         return res.status(response.status).json({ error: "No content returned" });
       }
     }
-    
-    // Parse response body and return it to the caller
-    const data = await response.json();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (jsonErr) {
+      return res.status(500).json({ error: "Invalid JSON from upstream", raw: text });
+    }
     return res.status(response.status).json(data);
   } catch (error) {
-    console.error("Error forwarding request:", error);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 }
